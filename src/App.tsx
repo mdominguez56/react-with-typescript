@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import List from "./components/List";
+import Form from "./components/Form";
+import { Sub } from "./types";
+
+interface AppState {
+  subs: Array<Sub>;
+  newSubsNumber: number;
+}
 
 const INITIAL_STATE = [
   {
@@ -15,15 +23,10 @@ const INITIAL_STATE = [
   },
 ];
 
-interface Sub {
-  nick: string;
-  avatar: string;
-  subMonths: number;
-  description?: string;
-}
-
 function App() {
-  const [subs, setSubs] = useState<Array<Sub>>();
+  const [subs, setSubs] = useState<AppState["subs"]>([]);
+  const [newSubsNumber, setNewSubsNumber] =
+    useState<AppState["newSubsNumber"]>(0);
 
   useEffect(() => {
     setSubs(INITIAL_STATE);
@@ -32,19 +35,8 @@ function App() {
   return (
     <div className="App">
       <h1>Mati subs</h1>
-      <ul>
-        {subs?.map((sub) => {
-          return (
-            <li key={sub.nick}>
-              <img src={sub.avatar} alt={`Avatar for ${sub.nick}`} />
-              <h4>
-                {sub.nick} (<small>{`${sub.subMonths} months`}</small>)
-              </h4>
-              <p>{sub.description}</p>
-            </li>
-          );
-        })}
-      </ul>
+      <List subs={subs} />
+      <Form />
     </div>
   );
 }
