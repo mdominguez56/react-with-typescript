@@ -5,14 +5,22 @@ interface FormState {
   inputValues: Sub;
 }
 
-const Form = () => {
+interface FormProps {
+  onNewSub: (newSub: Sub) => void;
+}
+
+const Form = ({ onNewSub }: FormProps) => {
   const [inputValues, setInputValues] = useState<FormState["inputValues"]>({
     nick: "",
     subMonths: 0,
     avatar: "",
     description: "",
   });
-  const handleSubmit = () => {};
+
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    onNewSub(inputValues);
+  };
 
   const handleChange = (
     evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
